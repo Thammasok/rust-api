@@ -6,59 +6,11 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: happy-db
+      POSTGRES_DB: sample-db
     ports:
       - 5432:5432
     volumes:
       - ./dockers/postgresql/data:/var/lib/postgresql/data
-    networks:
-      - workspace
-
-  mongo:
-    image: mongo:latest
-    container_name: mongo
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
-      MONGO_INITDB_DATABASE: happy
-      MONGO_INITDB_USERNAME: happy-user
-      MONGO_INITDB_PASSWORD: happy-pass
-    ports:
-      - 27017:27017
-    volumes:
-      - ./mongo/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
-      - ./dockers/mongo:/data/db
-    networks:
-      - workspace
-
-  redis:
-    image: redis
-    container_name: redis
-    restart: always
-    ports:
-      - 6379:6379
-    networks:
-      - workspace
-
-  sonarqube:
-    image: sonarqube:lts-community
-    container_name: sonarqube
-    hostname: sonarqube
-    environment:
-      SONAR_JDBC_URL: jdbc:postgresql://db:5432/happy-db?schema=public
-      SONAR_JDBC_USERNAME: root
-      SONAR_JDBC_PASSWORD: root
-    ports:
-      - 9000:9000
-    volumes:
-      - ./dockers/sonarqube/sonarqube_conf:/opt/sonarqube/conf
-      - ./dockers/sonarqube/sonarqube_data:/opt/sonarqube/data
-      - ./dockers/sonarqube/sonarqube_extensions:/opt/sonarqube/extensions
-      - ./dockers/sonarqube/sonarqube_logs:/opt/sonarqube/logs
-      - ./dockers/sonarqube/sonarqube_temp:/opt/sonarqube/temp
-    depends_on:
-      - db
     networks:
       - workspace
 
