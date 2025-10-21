@@ -101,7 +101,7 @@ impl UserRepository {
         Ok(result.rows_affected() > 0)
     }
 
-    /// Count total users
+    // Count total users
     pub async fn count(&self) -> Result<i64, SqlxError> {
         let (count,): (i64,) = sqlx::query_as("SELECT COUNT(*) FROM users")
             .fetch_one(&self.pool)
